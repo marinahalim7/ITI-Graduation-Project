@@ -18,6 +18,7 @@ return new class extends Migration
             $table->date("exp_date");
             $table->string("exp_img");
             $table->float("price");
+            $table->boolean("publishable");
             $table->integer("quantity");
             $table->timestamps();
         });
