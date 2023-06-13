@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserDrugController;
+use App\Http\Controllers\PharmacyAPIsController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -19,3 +20,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::apiResource('/user/drugs',UserDrugController::class);
+Route::apiResource('/pharmacy',PharmacyAPIsController::class);
