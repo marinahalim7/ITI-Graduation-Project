@@ -12,7 +12,7 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
     public function user_drugs(){
-        return $this->belongsToMany(UserDrug::class,'user_rel_drugs','user_id','drug_id');
+        return $this->hsaMany(UserDrug::class);
     }
 
     /**

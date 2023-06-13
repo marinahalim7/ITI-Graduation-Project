@@ -20,6 +20,14 @@ return new class extends Migration
             $table->float("price");
             $table->boolean("publishable")->nullable()->default(false);
             $table->integer("quantity");
+            
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')
+                  ->references('id')
+                  ->on("users")
+                  ->onDelete('cascade')
+                  ->onUpdate('cascade');
+
             $table->timestamps();
         });
     }

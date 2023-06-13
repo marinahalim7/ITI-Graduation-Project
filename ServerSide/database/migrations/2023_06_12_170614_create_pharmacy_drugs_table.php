@@ -17,6 +17,14 @@ return new class extends Migration
             $table->string("img");
             $table->float("price");
             $table->integer("quantity");
+            
+            $table->unsignedBigInteger('pharmacy_id');
+            $table->foreign('pharmacy_id')
+                  ->references('id')
+                  ->on("pharmacies")
+                  ->onDelete('cascade')
+                  ->onUpdate('cascade');
+
             $table->timestamps();
         });
     }

@@ -17,6 +17,14 @@ return new class extends Migration
             $table->string("img");
             $table->float("price");
             $table->integer("quantity");
+            
+            $table->unsignedBigInteger('store_id');
+            $table->foreign('store_id')
+                  ->references('id')
+                  ->on("stores")
+                  ->onDelete('cascade')
+                  ->onUpdate('cascade');
+
             $table->timestamps();
         });
     }

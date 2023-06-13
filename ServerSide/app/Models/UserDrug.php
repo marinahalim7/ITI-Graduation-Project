@@ -8,10 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class UserDrug extends Model
 {
     protected $table = 'user_drugs';
-    protected $fillable=['name','img','exp_date','exp_img','price','quantity','publishable'];
+    protected $fillable=['name','exp_date','price','quantity','publishable'];
     
     public function users(){
-        return $this->belongsToMany(User::class,'user_rel_drugs','user_id','drug_id');
+        return $this->belongsTo(User::class);
     }
     use HasFactory;
 }
