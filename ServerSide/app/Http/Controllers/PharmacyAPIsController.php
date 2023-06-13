@@ -25,7 +25,7 @@ class PharmacyAPIsController extends Controller
     public function store(Request $request)
     {
         $pharmacy=Pharmacy::create($request->all());
-        return new Response(new PharmacyResource($pharmacy), 200);
+        return new PharmacyResource($pharmacy);
     }
 
     /**
@@ -34,9 +34,10 @@ class PharmacyAPIsController extends Controller
     public function show(Pharmacy $pharmacy)
     {
         if ($pharmacy){
-            return new Response(new PharmacyResource($pharmacy),200);
+            return new PharmacyResource($pharmacy);
         }else{
-            return new Response("Pharmacy is not Exists",404);
+            $msg="This Pharmacy is not exist";
+            return new Response($msg,404);
         }
     }
 
@@ -46,7 +47,7 @@ class PharmacyAPIsController extends Controller
     public function update(Request $request, Pharmacy $pharmacy)
     {
         $pharmacy->update($request->all());
-        return new Response(new PharmacyResource($pharmacy),200);
+        return new PharmacyResource($pharmacy);
     }
 
     /**
@@ -55,6 +56,7 @@ class PharmacyAPIsController extends Controller
     public function destroy(Pharmacy $pharmacy)
     {
         $pharmacy->delete();
-        return new Response(['msg'=>"Pharmacy Deleted"],204);
+        $msg="Pharmacy Deleted Successfully";
+        return new Response($msg,404);
     }
 }
