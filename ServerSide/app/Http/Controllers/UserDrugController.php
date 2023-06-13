@@ -14,7 +14,10 @@ class UserDrugController extends Controller
      */
     public function index()
     {
-        return "ddd";
+        $user = User::find(3);
+        $drugs = $user->user_drugs->where('publishable', true);
+        // return UserDrug::where('publishable', true)->get();
+        return $drugs;
     }
 
     /**
@@ -23,21 +26,10 @@ class UserDrugController extends Controller
     public function store(StoreUserDrugRequest $request)
     {
 
-       $drug= UserDrug::create($request->all());
-
-       $user = User::find($request->input('user_id'));
-    //    dd($drug);
-    //    dd($user);
-
-           
-         $user->user_drugs()->attach($drug->id);
-
-
-        // if ($request->image) {
-        //     $this->save_image($request,$article);
-               
-        // }
-        return  Response('created',201);
+       $drug= UserDrug::create($request->all());   // store drug  data
+       $user = User::find($request->input('user_id')); // retrive login user
+       $user->user_drugs()->attach($drug->id);       // store in pivot table
+       return  Response('created',201);
     }
 
     /**
