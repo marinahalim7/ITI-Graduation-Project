@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string("name");
             $table->string("slug");
             $table->string("password");
-            $table->integer("owner_SSN");
-            $table->integer("phone_num");
+            $table->string("owner_SSN",14)->unique();
+            $table->string("phone_num",11)->unique();
             $table->float("location_lat");
             $table->float("location_long");
             $table->timestamps();
