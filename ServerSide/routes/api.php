@@ -7,6 +7,7 @@ use App\Http\Controllers\PharmacyAPIsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\DrugController;
+use App\Http\Controllers\StoreDrugController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -30,6 +31,10 @@ Route::apiResource('/store',StoreController::class);
 Route::apiResource('user', UserController::class);
 
 
+#Route::delete('/stores/{storeId}/drugs/{drugId}', [StoreDrugController::class, 'destroy'])->middleware('api');
+Route::apiResource('stores.drugs', StoreDrugController::class)->only(['destroy','update']);
+
+
 use App\Http\Controllers\PayPalController;
 
 Route::post('/create-payment', [PayPalController::class, 'createPayment']);
@@ -37,3 +42,5 @@ Route::post('/execute-payment', [PayPalController::class, 'executePayment']);
 
 use App\Http\Controllers\PaymentController;
 Route::post('/payment', [PaymentController::class,'makePayment'])->name('payment.make');
+
+
