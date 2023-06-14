@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PaypalController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +17,13 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+use App\Http\Controllers\PaymentController;
+
+Route::name('stripe.')
+    ->controller(PaymentController::class)
+    ->prefix('stripe')
+    ->group(function () {
+        Route::post('payment', 'store')->name('store');
+    });
