@@ -23,6 +23,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+// middleware of login............ 
+// Route::apiResource('/user/drugs',UserDrugController::class)->middleware('auth:sanctum');
 Route::apiResource('/user/drugs',UserDrugController::class);
 Route::apiResource('/drugs',DrugController::class);
 Route::apiResource('/pharmacy',PharmacyAPIsController::class);
@@ -43,4 +45,5 @@ Route::post('/execute-payment', [PayPalController::class, 'executePayment']);
 use App\Http\Controllers\PaymentController;
 Route::post('/payment', [PaymentController::class,'makePayment'])->name('payment.make');
 
+Route::post('/user/login', [UserController::class, 'userLogin']);
 
