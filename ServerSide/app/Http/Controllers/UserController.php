@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreUserRequest;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -18,9 +20,13 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
-        //
+        $user = User::create($request->all());
+
+        $this->save_image($request->img, $user);
+        return new UserResource($user);
+
     }
 
     /**
@@ -45,5 +51,13 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         //
+    }
+    private function save_image($img, $article){
+        if ($img){
+            $img_name = time().'.'.$img->extension();
+            $img->move(public_path('images/users'),$img_name);
+            $article->img = $img_name;
+            $article->save();
+        }
     }
 }
