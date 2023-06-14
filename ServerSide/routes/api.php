@@ -6,6 +6,9 @@ use App\Http\Controllers\UserDrugController;
 use App\Http\Controllers\PharmacyAPIsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\StoreController;
+use App\Http\Controllers\StoreDrugController;
+use App\Models\StoreDrug;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -25,4 +28,5 @@ Route::apiResource('/user/drugs',UserDrugController::class);
 Route::apiResource('/pharmacy',PharmacyAPIsController::class);
 
 Route::apiResource('/store',StoreController::class);
-Route::apiResource('user', UserController::class);
+Route::apiResource('/user', UserController::class);
+Route::apiResource('/store/drugs',StoreDrugController::class);
