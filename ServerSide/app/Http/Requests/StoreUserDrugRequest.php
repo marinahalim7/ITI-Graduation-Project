@@ -32,7 +32,6 @@ class StoreUserDrugRequest extends FormRequest
             'price'=>'required|numeric',
             'quantity'=>'required|numeric',
             'user_id'=>'required|numeric',
-            
         ];
     }
     protected function failedValidation(Validator $validator)

@@ -15,7 +15,7 @@ class UserDrugController extends Controller
     {
         $user = User::find(3);
         $drugs = $user->user_drugs->where('publishable', true);
-        return  userDrugResource::collection($drugs);
+        return userDrugResource::collection($drugs);
     }
 
     
