@@ -10,9 +10,9 @@ class StoreDrugController extends Controller
     /**
      * Display a listing of the resource.
      */
+
     public function index()
     {
-        //
         $storeDrug = StoreDrug::all();
         return $storeDrug;
     }
@@ -37,22 +37,31 @@ class StoreDrugController extends Controller
      * Update the specified resource in storage.
      */
 
-//  public function update(Request $request, Store $store, StoreDrug $storeDrug)
-//     {
-//         // Check if the store drug belongs to the specified store
-//         if ($storeDrug->store_id !== $store->id) {
-//             return response()->json(['message' => 'Store drug not found'], 404);
-//         }
 
-//         // Update the store drug with the new data
-//         $storeDrug->update($request->all());
+  public function update(Request $request, $storeId, $drugId)
+    {
+       // Find the store
+       $store = Store::find($storeId);
 
-//         // Return success message
-//         return response()->json(['message' => 'Store drug updated successfully'], 200);
-//     }
+       // Check if the store exists
+       if (!$store) {
+           return response()->json(['message' => 'Store does not exist'], 404);
+       }
+        // Find the store drug within the store
+        $storeDrug = $store->store_drugs()->find($drugId);
+
+        // Check if the store drug exists within the store
+        if (!$storeDrug) {
+            return response()->json(['message' => 'Store drug not found'], 404);
+        }
+
+       $storeDrug->update($request->all());
+       return response()->json(['message' => 'Store drug updated successfully'], 200);
+   }
 
 
-    public function destroy($storeId, $drugId)
+
+  public function destroy($storeId, $drugId)
      {
         // Find the store
         $store = Store::find($storeId);
