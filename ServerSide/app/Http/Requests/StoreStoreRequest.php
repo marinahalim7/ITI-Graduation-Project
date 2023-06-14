@@ -29,8 +29,8 @@ class StoreStoreRequest extends FormRequest
             'name'=>'required',
             'slug'=>'',
             'password'=>'required|regex:/^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/',
-            'owner_SSN'=>'required|unique:pharmacies|digits:16',
-            'phone_num'=>'required|unique:users|digits:11',
+            'owner_SSN'=>'required|unique:stores|digits:14',
+            'phone_num'=>'required|unique:stores|digits:11',
             'location_lat'=>'',
             'location_long'=>''
         ];
