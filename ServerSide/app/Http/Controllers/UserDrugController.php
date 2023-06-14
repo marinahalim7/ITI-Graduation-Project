@@ -13,7 +13,7 @@ class UserDrugController extends Controller
     
     public function index()
     {
-        $user = User::find(3);
+        $user = User::find(1);  // user who loginIn
         $drugs = $user->user_drugs->where('publishable', true);
         return  userDrugResource::collection($drugs);
     }
@@ -38,34 +38,56 @@ class UserDrugController extends Controller
         }
         $drug->save();
 
-  
-      // $user = User::find($request->input('user_id')); // retrive login user
-    //    $user->user_drugs()->attach($drug->id);       // store in pivot table
-    
-
-
        return  Response('created',201);
     }
 
     
-    public function show(string $id)
+    public function show(string $drugID)
     {
-        $drugs = UserDrug::find($id);
-
-          return new userDrugResource($drugs);
+          $drug = UserDrug::find($drugID);
+          return new userDrugResource($drug);
     }
 
   
-    public function update(StoreUserDrugRequest $request, UserDrug $userDrug)
+    public function update(Request $request, string $drugID)
     {
-        //
+       
+
+        $drug = UserDrug::find($drugID);
+        $old_img=$drug->img;
+        $old_exp_img=$drug->exp_img;
+     
+        $drug->update($request->all());
+
+        if ($request->img) {
+            $this->save_drug_img($request,$drug);  
+            if($old_img){
+                unlink(public_path('images/userDrugs/'.$old_img));
+                
+            }       
+        }
+
+        if ($request->exp_img) {
+            $this->save_drug_exp_img($request,$drug);  
+            if($old_exp_img){
+                unlink(public_path('images/userDrugs/'.$old_exp_img));
+            }  
+              
+        }
+        $drug->save();
+      
+
+
     }
 
-   
-    public function destroy(UserDrug $userDrug)
+    public function destroy(string $drugID)
     {
-       // dd($userDrug);
-        $userDrug->delete();
+        $drug = UserDrug::find($drugID);
+        unlink(public_path('images/userDrugs/'.$drug->img));
+        unlink(public_path('images/userDrugs/'.$drug->exp_img));
+
+        $drug->delete();
+        
     }
 
     private function save_drug_img($request,$object){
@@ -83,5 +105,7 @@ class UserDrugController extends Controller
         $object->exp_img=$img_name;
      
     }
+  
+   
 
 }
