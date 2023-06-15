@@ -7,8 +7,6 @@ use App\Http\Controllers\PharmacyAPIsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\DrugController;
-use App\Http\Controllers\StoreDrugController;
-use App\Http\Controllers\PharmacyDrugsController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -23,21 +21,18 @@ use App\Http\Controllers\PharmacyDrugsController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-
-// middleware of login............ 
-// Route::apiResource('/user/drugs',UserDrugController::class)->middleware('auth:sanctum');
+// Marina Routes
 Route::apiResource('/user/drugs',UserDrugController::class);
-Route::apiResource('/drugs',DrugController::class);
-Route::apiResource('/pharmacy',PharmacyAPIsController::class);
-Route::apiResource('/pharmacies/drugs',PharmacyDrugsController::class);
+Route::get('/users/drugs',[UserDrugController::class,'getAllUSersDrugs']);
+Route::get('/users/drugs/{name}',[UserDrugController::class,'getDrugsByName']);
 
+
+
+
+Route::apiResource('/pharmacy',PharmacyAPIsController::class);
 
 Route::apiResource('/store',StoreController::class);
 Route::apiResource('user', UserController::class);
-
-
-#Route::delete('/stores/{storeId}/drugs/{drugId}', [StoreDrugController::class, 'destroy'])->middleware('api');
-Route::apiResource('stores.drugs', StoreDrugController::class)->only(['destroy','update']);
 
 
 use App\Http\Controllers\PayPalController;
@@ -47,6 +42,3 @@ Route::post('/execute-payment', [PayPalController::class, 'executePayment']);
 
 use App\Http\Controllers\PaymentController;
 Route::post('/payment', [PaymentController::class,'makePayment'])->name('payment.make');
-
-Route::post('/user/login', [UserController::class, 'userLogin']);
-

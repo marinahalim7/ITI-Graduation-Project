@@ -7,18 +7,42 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreUserDrugRequest;
 use App\Http\Resources\userDrugResource;
-
+use App\Http\Resources\DrugResource;
+use App\Http\Resources\DrugDetailsResource;
 class UserDrugController extends Controller
 {
     
     public function index()
     {
-        $user = User::find(1);  // user who loginIn
+        $user = User::find(2);  // user who loginIn
         $drugs = $user->user_drugs->where('publishable', true);
-        return  userDrugResource::collection($drugs);
+ 
+        if($drugs->isEmpty()){
+           return response()->json(['message' => 'No drugs found'], 404);
+         }
+           return  DrugResource::collection($drugs);
+        
     }
 
+    public function getAllUSersDrugs(){
+
+        $drugs = UserDrug::where('publishable', true)->get();
+        if($drugs->isEmpty()){
+            return response()->json(['message' => 'No drugs found'], 404);
+          }
+          return  userDrugResource::collection($drugs); 
+    }
     
+    public function getDrugsByName(Request $request,$name)
+    {
+          $drugs = UserDrug::where('name',$name)->where('publishable', true)->get();
+          if($drugs->isEmpty()){
+            return response()->json(['message' => 'No drugs found'], 404);
+          }
+            return  userDrugResource::collection($drugs);
+          
+    }
+
     public function store(StoreUserDrugRequest $request)
     {
         $drug=new UserDrug();
@@ -38,17 +62,20 @@ class UserDrugController extends Controller
         }
         $drug->save();
 
-       return  Response('created',201);
+        return response()->json(['message' => 'created'], 201);
+
     }
 
-    
     public function show(string $drugID)
     {
-          $drug = UserDrug::find($drugID);
-          return new userDrugResource($drug);
+          $drug = UserDrug::where('id',$drugID)->where('publishable', true)->first();
+          if($drug){
+            return new DrugDetailsResource($drug);
+            } 
+            return response()->json(['message' => 'Not found'], 200);
+
     }
 
-  
     public function update(Request $request, string $drugID)
     {
        
@@ -75,6 +102,8 @@ class UserDrugController extends Controller
               
         }
         $drug->save();
+        return response()->json(['message' => 'updated'], 200);
+
       
 
 
@@ -83,10 +112,14 @@ class UserDrugController extends Controller
     public function destroy(string $drugID)
     {
         $drug = UserDrug::find($drugID);
-        unlink(public_path('images/userDrugs/'.$drug->img));
-        unlink(public_path('images/userDrugs/'.$drug->exp_img));
+        if($drug){
+            unlink(public_path('images/userDrugs/'.$drug->img));
+            unlink(public_path('images/userDrugs/'.$drug->exp_img));
+            $drug->delete();
+            return response()->noContent();
+        }
+        return response()->json(['message' => 'Not Found'], 400);
 
-        $drug->delete();
         
     }
 

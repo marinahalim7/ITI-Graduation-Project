@@ -6,44 +6,48 @@ use App\Http\Requests\StoreStoreRequest;
 use App\Http\Resources\StoreResource;
 use App\Models\Store;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 class StoreController extends Controller
 {
-   
+    /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
-        return StoreResource::collection(Store::all());
+        //
     }
 
- 
+    /**
+     * Store a newly created resource in storage.
+     */
     public function store(StoreStoreRequest $request)
     {
-        $store = Store::create($request->all());
+        
+        $store=Store::create($request->all());
         return new StoreResource($store);
     }
 
-  
+    /**
+     * Display the specified resource.
+     */
     public function show(Store $store)
     {
-        if ($store){
-            return new StoreResource($store);
-        }else{
-            return response()->json(['message' => 'This Store is not exist'], 404);
-        }
+        //
     }
 
- 
+    /**
+     * Update the specified resource in storage.
+     */
     public function update(Request $request, Store $store)
     {
-        $store->update($request->all());
-        return new StoreResource($store);
+        //
     }
 
-
+    /**
+     * Remove the specified resource from storage.
+     */
     public function destroy(Store $store)
     {
-        $store->delete();
-        return response()->json(['message' => 'Store deleted successfully'], 200);
+        //
     }
 }

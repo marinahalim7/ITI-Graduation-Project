@@ -10,7 +10,7 @@ class UserDrug extends Model
     protected $table = 'user_drugs';
     protected $fillable=['name','exp_date','price','quantity','publishable'];
     
-    public function users(){
+    public function user(){
         return $this->belongsTo(User::class);
     }
     use HasFactory;
