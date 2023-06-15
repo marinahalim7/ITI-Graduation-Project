@@ -12,7 +12,7 @@ use App\Http\Resources\DrugDetailsResource;
 class UserDrugController extends Controller
 {
     
-    public function index()
+    public function index()  // display drugs for specific user
     {
         $user = User::find(2);  // user who loginIn
         $drugs = $user->user_drugs->where('publishable', true);
@@ -138,6 +138,41 @@ class UserDrugController extends Controller
         $object->exp_img=$img_name;
      
     }
+
+    // Admin Routes
+    public function display_Unpublished_Drugs(){
+        $drugs = UserDrug::where('publishable', false)->get();
+        if($drugs->isEmpty()){
+            return response()->json(['message' => 'No drugs found'], 404);
+          }
+          return  DrugDetailsResource::collection($drugs);
+        
+    }
+
+    public function delete_Drug(string $drugID){
+        $drug = UserDrug::find($drugID);
+        if($drug){
+            unlink(public_path('images/userDrugs/'.$drug->img));
+            unlink(public_path('images/userDrugs/'.$drug->exp_img));
+            $drug->delete();
+            return response()->noContent();
+        }
+        return response()->json(['message' => 'Not Found'], 400);
+
+
+    }
+
+    public function update_Drug(string $drugID){
+        $drug = UserDrug::find($drugID);
+        if ($drug) {
+         $drug->publishable = true;
+         $drug->save();
+         return response()->json(['message' => 'updated'], 200);
+
+        }
+
+    }
+   
   
    
 

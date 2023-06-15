@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('img')->nullable()->default('user.jpg');
             $table->string("phone_num",11)->unique();
+            $table->boolean("isAdmin")->nullable()->default(false);
             $table->rememberToken();
             $table->timestamps();
         });

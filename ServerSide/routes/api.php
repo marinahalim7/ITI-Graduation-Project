@@ -26,6 +26,12 @@ Route::apiResource('/user/drugs',UserDrugController::class);
 Route::get('/users/drugs',[UserDrugController::class,'getAllUSersDrugs']);
 Route::get('/users/drugs/{name}',[UserDrugController::class,'getDrugsByName']);
 
+Route::get('/admin',[UserDrugController::class,'display_Unpublished_Drugs']);
+Route::put('/admin/{DrugId}',[UserDrugController::class,'update_Drug']);
+Route::delete('/admin/{DrugId}',[UserDrugController::class,'delete_Drug']);
+
+
+
 
 
 
