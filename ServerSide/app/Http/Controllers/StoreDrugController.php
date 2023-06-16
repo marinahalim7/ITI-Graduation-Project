@@ -1,19 +1,21 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\StoreDrug;
 use Illuminate\Http\Request;
 use App\Models\Store;
 use Illuminate\Http\Response;
 use App\Http\Requests\StoreStoreDrugRequest;
+use App\Http\Resources\StoreDrugResource;
 
 class StoreDrugController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of store resource.
      */
 
-    public function index()
+    public function index() #get all drugs
     {
         $storeDrug = StoreDrug::all();
         return $storeDrug;
@@ -22,58 +24,45 @@ class StoreDrugController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreStoreDrugRequest $request)
+    public function store(StoreStoreDrugRequest $request, $id)
     {
-    
-      $storeDrug = StoreDrug::create($request->all());   
-      $this->save_img($request, $storeDrug);
-      $storeDrug->save();
-      return new Response('created', 200);
+        $storeId = $id;
 
-    }
+        $storeDrug = new StoreDrug;
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(StoreDrug $storeDrug)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-  public function update(Request $request, $storeId, $drugId)
-    {
-       
-       $store = Store::find($storeId);
-
-       if (!$store) {
-           return response()->json(['message' => 'Store does not exist'], 404);
-       }
-
-        $storeDrug = $store->store_drugs()->find($drugId);
-       
-        if (!$storeDrug) {
-            return response()->json(['message' => 'Store drug not found'], 404);
-        }
-        $old_img = $storeDrug->img;
-        // dd($old_img);
-        $storeDrug->update($request->all());
-     
-        if ($request->img) {
-            $this->save_drug_img($request,$storeDrug);  
-            if($old_img){
-                dd('ee');
-                unlink(public_path('images/storeDrugs/'.$old_img));
-            }
-        }
+        $storeDrug->name = $request->name;
+        $storeDrug->price = $request->price;
+        $storeDrug->quantity = $request->quantity;
+        $storeDrug->store_id = $storeId;
+        $this->save_img($request, $storeDrug);
         $storeDrug->save();
-   
-       return response()->json(['message' => 'Store drug updated successfully'], 200);
-   }
-  public function destroy($storeId, $drugId)
-     {
+        return new Response('created', 200);
+
+    }
+
+    /**
+     * Display store specified resource.
+     */
+    public function show($storeID, $drugId) #get drug info
+    {
+        $storeDrug = StoreDrug::where('store_id', $storeID)
+            ->where('id', $drugId)
+            ->firstOrFail();
+
+        if ($storeDrug) {
+
+            return response()->json($storeDrug);
+        } else {
+            return response()->json(['message' => 'This drug is not exist in store'], 404);
+        }
+    }
+
+    /**
+     * Update store specified resource in storage.
+     */
+    public function update(Request $request, $storeId, $drugId)
+    {
+
         $store = Store::find($storeId);
 
         if (!$store) {
@@ -85,20 +74,60 @@ class StoreDrugController extends Controller
         if (!$storeDrug) {
             return response()->json(['message' => 'Store drug not found'], 404);
         }
-        // delete the image from storeDruges folder
-        unlink(public_path('images/storeDrugs/' .$storeDrug->img));
+        $old_img = $storeDrug->img;
+        // dd($old_img);
+        $storeDrug->update($request->all());
+
+        if ($request->img) {
+            $this->save_drug_img($request, $storeDrug);
+            if ($old_img) {
+                dd('ee');
+                unlink(public_path('images/storeDrugs/' . $old_img));
+            }
+        }
+        $storeDrug->save();
+
+        return response()->json(['message' => 'Store drug updated successfully'], 200);
+    }
+    public function destroy($storeId, $drugId)
+    {
+        $store = Store::find($storeId);
+
+        if (!$store) {
+            return response()->json(['message' => 'Store does not exist'], 404);
+        }
+
+        $storeDrug = $store->store_drugs()->find($drugId);
+
+        if (!$storeDrug) {
+            return response()->json(['message' => 'Store drug not found'], 404);
+        }
+        // delete store image from storeDruges folder
+        unlink(public_path('images/storeDrugs/' . $storeDrug->img));
         $storeDrug->delete();
 
 
         return response()->json(['message' => 'Store drug deleted successfully'], 200);
     }
 
+    public function getdrugs($drugName)          ##get all stores of specific drug
+    {
+        $storeNames = Store::whereHas('store_drugs', function ($query) use ($drugName) {
+            $query->where('name', 'like', $drugName);
+        })->pluck('name');
 
-    private function save_img($request,$storeDrug)
+        if ($storeNames->isEmpty()) {
+            return response()->json(['message' => 'This drug is not exist in store'], 404);
+        } else {
+            return response()->json($storeNames);
+        }
+    }
+
+    private function save_img($request, $storeDrug)
     {
         $image = $request['img'];
-        $imgName = time().'.'.$image->extension();
-        $request->img->move(public_path('images/storeDrug'),$imgName);
+        $imgName = time() . '.' . $image->extension();
+        $request->img->move(public_path('images/storeDrug'), $imgName);
         $storeDrug->img = $imgName;
 
     }

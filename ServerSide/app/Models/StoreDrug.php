@@ -16,7 +16,7 @@ class StoreDrug extends Model
         'img',
         'price',
         'quantity',
-        'store_id'
+        
     ];
 
 

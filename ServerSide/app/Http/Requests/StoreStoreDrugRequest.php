@@ -26,7 +26,7 @@ class StoreStoreDrugRequest extends FormRequest
             'img'=>'required',
             'price'=>'required | numeric',
             'quantity'=>'required | numeric',
-            'store_id'=>'required |numeric',
+            // 'store_id'=>'required |numeric',
         ];
     }
 }

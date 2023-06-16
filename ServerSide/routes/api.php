@@ -34,7 +34,11 @@ Route::put('/admin/{DrugId}',[UserDrugController::class,'update_Drug']);
 Route::delete('/admin/{DrugId}',[UserDrugController::class,'delete_Drug']);
 
 
-Route::apiResource('/stores/drugs', StoreDrugController::class);
+// Route::apiResource('/stores/drugs', StoreDrugController::class);
+Route::apiResource('stores.drugs', StoreDrugController::class);
+
+Route::get('stores/drugs/{drug}', [StoreDrugController::class , 'getdrugs']);
+
 Route::apiResource('/pharmacy',PharmacyAPIsController::class);
 Route::apiResource('/store',StoreController::class);
 Route::apiResource('user', UserController::class);
