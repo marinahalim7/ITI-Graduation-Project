@@ -7,6 +7,7 @@ use App\Http\Controllers\PharmacyAPIsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\DrugController;
+use App\Http\Controllers\StoreDrugController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -31,14 +32,14 @@ Route::put('/admin/{DrugId}',[UserDrugController::class,'update_Drug']);
 Route::delete('/admin/{DrugId}',[UserDrugController::class,'delete_Drug']);
 
 
-
-
-
-
+Route::apiResource('stores.drugs', StoreDrugController::class);
 Route::apiResource('/pharmacy',PharmacyAPIsController::class);
-
 Route::apiResource('/store',StoreController::class);
 Route::apiResource('user', UserController::class);
+#Route::delete('/stores/{storeId}/drugs/{drugId}', [StoreDrugController::class, 'destroy'])->middleware('api');
+
+
+
 
 
 use App\Http\Controllers\PayPalController;
@@ -48,3 +49,8 @@ Route::post('/execute-payment', [PayPalController::class, 'executePayment']);
 
 use App\Http\Controllers\PaymentController;
 Route::post('/payment', [PaymentController::class,'makePayment'])->name('payment.make');
+Route::post('/user/login', [UserController::class, 'userLogin']);
+
+
+
+

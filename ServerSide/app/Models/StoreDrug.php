@@ -5,12 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class UserDrug extends Model
+class StoreDrug extends Model
 {
-    protected $fillable=['name','exp_date','price','quantity','publishable'];
     
-    public function users(){
-        return $this->belongsTo(User::class);
-    }
     use HasFactory;
+    
+    protected $fillable=['name','img','price','quantity'];
+
+
+    public function stores(){
+        return $this->belongsTo(Store::class);
+    }
+
 }
