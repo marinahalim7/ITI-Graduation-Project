@@ -23,6 +23,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 // Marina Routes
+// middleware of login............ 
+// Route::apiResource('/user/drugs',UserDrugController::class)->middleware('auth:sanctum');
 Route::apiResource('/user/drugs',UserDrugController::class);
 Route::get('/users/drugs',[UserDrugController::class,'getAllUSersDrugs']);
 Route::get('/users/drugs/{name}',[UserDrugController::class,'getDrugsByName']);
@@ -32,7 +34,7 @@ Route::put('/admin/{DrugId}',[UserDrugController::class,'update_Drug']);
 Route::delete('/admin/{DrugId}',[UserDrugController::class,'delete_Drug']);
 
 
-Route::apiResource('stores.drugs', StoreDrugController::class);
+Route::apiResource('/stores/drugs', StoreDrugController::class);
 Route::apiResource('/pharmacy',PharmacyAPIsController::class);
 Route::apiResource('/store',StoreController::class);
 Route::apiResource('user', UserController::class);

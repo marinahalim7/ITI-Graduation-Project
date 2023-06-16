@@ -10,7 +10,14 @@ class StoreDrug extends Model
     
     use HasFactory;
     
-    protected $fillable=['name','img','price','quantity'];
+    protected $fillable=
+    [
+        'name',
+        'img',
+        'price',
+        'quantity',
+        'store_id'
+    ];
 
 
     public function stores(){
