@@ -7,8 +7,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Http\Response;
-
-class StoreStoreDrugRequest extends FormRequest
+class UpdateStoreDrugRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,11 +25,10 @@ class StoreStoreDrugRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'=>'required | min:3 ',
-            'img'=>'required',
-            'price'=>'required | numeric',
-            'quantity'=>'required | numeric',
-            // 'store_id'=>'required |numeric',
+            'name'=>'min:3 ',
+            'img'=>'',
+            'price'=>'numeric',
+            'quantity'=>'numeric',
         ];
     }
 
@@ -42,5 +40,4 @@ class StoreStoreDrugRequest extends FormRequest
                 'errors'=> $validator->errors(),
             ], 400));
     }
-   
 }
