@@ -42,7 +42,7 @@ Route::get('stores/drugs/{drug}', [StoreDrugController::class , 'getdrugs']);
 Route::apiResource('/pharmacy',PharmacyAPIsController::class);
 
 Route::post('/pharmacy/login' ,[ PharmacyAPIsController::class,'login']);
-Route::get('/pharmacy/logout', [PharmacyAPIsController::class, 'logout']);
+Route::post('/pharmacy/logout', [PharmacyAPIsController::class, 'logout']);
 
 Route::apiResource('/store',StoreController::class);
 

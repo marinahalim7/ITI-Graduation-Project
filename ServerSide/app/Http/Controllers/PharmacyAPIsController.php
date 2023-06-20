@@ -136,14 +136,14 @@ class PharmacyAPIsController extends Controller
 
     public function logout()
     {
-// dd('dd');
-        // session::flush();
-        // return response()->json(
-        //     [
-        //         'massage' => 'done'
-        //     ],
-        //     401
-        // );
+
+        session::flush();
+        return response()->json(
+            [
+                'massage' => 'done'
+            ],
+            401
+        );
 
 
     }

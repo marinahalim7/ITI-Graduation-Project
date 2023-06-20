@@ -123,13 +123,13 @@ class StoreController extends Controller
 
     public function logout()
     {
-        // session::flush();
-        // return response()->json(
-        //     [
-        //         'massage' => 'done'
-        //     ],
-        //     401
-        // );
+        session::flush();
+        return response()->json(
+            [
+                'massage' => 'done'
+            ],
+            401
+        );
 
     }
 

@@ -11,7 +11,11 @@ use App\Http\Resources\DrugResource;
 use App\Http\Resources\DrugDetailsResource;
 class UserDrugController extends Controller
 {
-    
+    //  function __construct()
+    // {
+    //     $this->middleware('auth:sanctum')->only('store');
+    // }
+
     public function index()  // display drugs for specific user
     {
         $user = User::find(2);  // user who loginIn
