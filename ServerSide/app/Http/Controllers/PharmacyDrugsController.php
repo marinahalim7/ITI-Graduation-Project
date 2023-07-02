@@ -31,11 +31,18 @@ class PharmacyDrugsController extends Controller
         $drug->price=request('price');
         $drug->quantity=request('quantity');
         $drug->pharmacy_id=request('pharmacy_id'); 
-        
+
+        if($request->img){
+            $this->save_drug_img($request,$drug);
+        }
         $drug->save();
 
-       return  Response($drug,201);
+        return response()->json(['message' => 'created'], 201);
+
     }
+
+
+    
 
     /**
      * Display the specified resource.
@@ -50,17 +57,33 @@ class PharmacyDrugsController extends Controller
             return Response("Drug Doesn't Exist",202);
         }
 
-        
     }
 
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(PharmacyDrugsRequest $request, PharmacyDrugs $drug)
+    public function update(PharmacyDrugsRequest $request, string $drugID)
     {
+        $drug = PharmacyDrugs::find($drugID);
+        $old_img=$drug->img;
+
         $drug->update($request->all());
+
+        if ($request->img) {
+            $this->save_drug_img($request,$drug);  
+            if($old_img){
+                unlink(public_path('images/pharmacyDrugs/'.$old_img));
+            }       
+        }
+        $drug->save();
+        return response()->json(['message' => 'updated'], 200);
+
     }
+
+
+
+
 
 
     public function getDrug(Request $request)
@@ -73,8 +96,6 @@ class PharmacyDrugsController extends Controller
         else{
             return Response("Drug Doesn't Exist",202);
         }
-
-        
     }
 
     /**
@@ -84,6 +105,7 @@ class PharmacyDrugsController extends Controller
     {
         $drug = PharmacyDrugs::find($id);
         if($drug){
+            unlink(public_path('images/pharmacyDrugs/'.$drug->img));
             $drug->delete();
             return Response("Deleted",202);
         }
@@ -91,5 +113,15 @@ class PharmacyDrugsController extends Controller
             return Response("Drug Doesn't Exist",204);
         }
 
+    }
+
+
+
+    private function save_drug_img($request,$object){
+        $extension = $request->img->extension();
+        $img_name=time(). '_'. uniqid() . '.' .$extension;
+        $request->img->move(public_path('images/pharmacyDrugs'),$img_name);
+        $object->img=$img_name;
+     
     }
 }

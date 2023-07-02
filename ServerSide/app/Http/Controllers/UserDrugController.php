@@ -44,7 +44,6 @@ class UserDrugController extends Controller
             return response()->json(['message' => 'No drugs found'], 404);
           }
             return  userDrugResource::collection($drugs);
-          
     }
 
     public function store(StoreUserDrugRequest $request)
@@ -94,7 +93,6 @@ class UserDrugController extends Controller
             $this->save_drug_img($request,$drug);  
             if($old_img){
                 unlink(public_path('images/userDrugs/'.$old_img));
-                
             }       
         }
 
@@ -108,10 +106,9 @@ class UserDrugController extends Controller
         $drug->save();
         return response()->json(['message' => 'updated'], 200);
 
-      
-
-
     }
+
+
 
     public function destroy(string $drugID)
     {
@@ -123,8 +120,6 @@ class UserDrugController extends Controller
             return response()->noContent();
         }
         return response()->json(['message' => 'Not Found'], 400);
-
-        
     }
 
     private function save_drug_img($request,$object){

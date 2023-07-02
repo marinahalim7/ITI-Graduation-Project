@@ -6,8 +6,10 @@ use App\Http\Controllers\UserDrugController;
 use App\Http\Controllers\PharmacyAPIsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\StoreController;
-use App\Http\Controllers\DrugController;
+// use App\Http\Controllers\DrugController;
 use App\Http\Controllers\StoreDrugController;
+
+use App\Http\Controllers\PharmacyDrugsController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -18,6 +20,14 @@ use App\Http\Controllers\StoreDrugController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+// cros
+// Route::middleware(['cors'])->group(function () {
+//     Route::post('/hogehoge', 'Controller@hogehoge');
+// });
+
+
+
+
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -35,7 +45,12 @@ Route::delete('/admin/{DrugId}',[UserDrugController::class,'delete_Drug']);
 
 
 // Route::apiResource('/stores/drugs', StoreDrugController::class);
-Route::apiResource('stores.drugs', StoreDrugController::class);
+// cros
+Route::middleware(['cors'])->group(function () {
+    Route::apiResource('stores.drugs', StoreDrugController::class);
+
+});
+// 
 
 Route::get('stores/drugs/{drug}', [StoreDrugController::class , 'getdrugs']);
 
@@ -54,8 +69,6 @@ Route::apiResource('user', UserController::class);
 
 
 
-
-
 use App\Http\Controllers\PayPalController;
 
 Route::post('/create-payment', [PayPalController::class, 'createPayment']);
@@ -68,3 +81,6 @@ Route::post('/user/login', [UserController::class, 'userLogin']);
 
 
 
+// Pharmacy Drugs
+
+Route::apiResource('/pharmacy/drugs',PharmacyDrugsController::class);

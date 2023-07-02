@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class PharmacyDrugs extends Model
 {
     protected $table = 'pharmacy_drugs';
-    protected $fillable=['name','price','quantity','pharmacy_id'];
+    protected $fillable=['name','img','price','quantity','pharmacy_id'];
     
     public function pharmacies(){
         return $this->belongsTo(Pharmacy::class);
