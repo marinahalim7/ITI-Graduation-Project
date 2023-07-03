@@ -1,4 +1,3 @@
-
 <template>
   <div class="backgroundImag">
     <div class="page-container">
@@ -191,10 +190,10 @@ const submitForm = async (event) => {
   formData.append('img', drugImageInput.files[0]); // Updated field name
 
   try {
-    const storeId = 9; // Replace with the actual store ID you obtain from the session
-
+    const storeId = 1; // Replace with the actual store ID you obtain from the session
+  console.log(formData);
     // Make API request
-    const response = await axios.post(`http://localhost:8000/api/stores/${storeId}/drugs/`, formData);
+    const response = await axios.post(`http://127.0.0.1:8000/api/stores/${storeId}/drugs/`, formData);
 
  Swal.fire({
       icon: 'success',

@@ -183,7 +183,7 @@ const submitForm = async (event) => {
   formData.append('price', price.value);
   formData.append('quantity', quantity.value);
   formData.append('img', drugImageInput.files[0]); 
-  formData.append('pharmacy_id',1); // get the pharmacy id from the seesion
+  formData.append('pharmacy_id',3); // get the pharmacy id from the seesion
 
   try {
 
