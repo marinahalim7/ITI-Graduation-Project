@@ -8,7 +8,15 @@ use Cviebrock\EloquentSluggable\Sluggable;
 class Pharmacy extends Model
 {
     use HasFactory;
-    protected $fillable=['name','slug','password','owner_SSN','phone_num','location_lat','location_long'];
+    protected $fillable=[
+        'name',
+        'slug',
+        'password',
+        'owner_SSN',
+        'phone_num',
+        'location_lat',
+        'location_long'
+    ];
 
 
 
