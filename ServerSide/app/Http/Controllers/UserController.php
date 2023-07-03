@@ -19,7 +19,7 @@ class UserController extends Controller
     //     $this->middleware('auth:sanctum')->only('store');
     // }
 
-    
+
     /**
      * Display a listing of the resource.
      */
@@ -107,11 +107,7 @@ class UserController extends Controller
             $user->tokens()->delete();
 
             if ($user) {
-                return response()->json([
-                    'status' => true,
-                    'massage' => 'user logged successfully',
-                    'token' => $user->createToken('API TOKEN')->plainTextToken
-                ], 200);
+                return $user;
             }
             // }
 

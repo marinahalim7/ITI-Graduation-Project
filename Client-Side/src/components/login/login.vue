@@ -2,6 +2,7 @@
 //Imports
 import {ref} from "vue";
 import axios from "axios";
+import {useRouter} from "vue-router";
 
 //Variables
 let email=ref();
@@ -17,9 +18,6 @@ let login=async()=>{
     email.value='';
     validData.value=false;
   }
-  // if (!emailRegex.test(email.value)){
-  //   validData.value=false;
-  // }
   if (password.value==undefined){
     password.value='';
     validData.value=false;
@@ -31,15 +29,34 @@ let login=async()=>{
       password: password
     }
     try {
-      const response=await axios.post('https://localhost:8000/api/pharmacy/login',user);
-      console.log(response);
+      const pharmacy=await axios.post('http://localhost:8000/api/pharmacy/login', {slug:email.value , password:password.value});
+      sessionStorage.setItem("pharmacy",JSON.stringify(pharmacy.data));
+      const btn=document.getElementById('pharmacy');
+      btn.click();
     }catch (e){
-      console.log(e.message);
-      massage.value=e.message;
+      console.log("Not Pharmacy");
     }
   }else{
     massage.value='invalid email or password';
   }
+  try {
+    const store = await axios.post('http://localhost:8000/api/store/login',{slug:email.value , password:password.value})
+    console.log(store.data)
+    sessionStorage.setItem("store",JSON.stringify(store.data));
+    const btn=document.getElementById('store');
+    btn.click();
+  }catch (e){
+    console.log("Not Store");
+  }
+  try {
+    const user = await axios.post('http://localhost:8000/api/user/login',{email:email.value , password:password.value})
+    sessionStorage.setItem("user",JSON.stringify(user.data));
+    const btn=document.getElementById('user');
+    btn.click();
+  }catch (e){
+    console.log("Not User");
+  }
+
 };
 </script>
 
@@ -50,7 +67,7 @@ let login=async()=>{
       <div class="form-container">
         <span class="text-danger fw-bold mb-3">{{massage}}</span>
         <div class="form-floating">
-          <input type="email" class="form-control rounded-5" id="email" v-model="email" placeholder="Email">
+          <input type="text" class="form-control rounded-5" id="email" v-model="email" placeholder="Email">
           <label for="email" class="fw-bold normal-words"><i class="fa-solid fa-envelope mx-3 fs-5"></i>Email</label>
         </div>
         <span class="text-danger fw-bold" v-show="email==''">Please enter email you want to login with</span>
@@ -60,6 +77,9 @@ let login=async()=>{
         </div>
         <span class="text-danger fw-bold" v-show="password==''">Your password is required to login</span>
         <button type="button" class="btn mt-2 login-btn" @click="login()">Sign in</button>
+        <router-link to="/pharmacy/home" hidden id="pharmacy"></router-link>
+        <router-link to="/user/home" hidden id="user"></router-link>
+        <router-link to="/store/home" hidden id="store"></router-link>
       </div>
     </div>
   </div>

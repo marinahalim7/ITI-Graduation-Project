@@ -87,7 +87,7 @@ class PharmacyAPIsController extends Controller
         return new Response($msg, 404);
     }
 
-    
+
     public function login(Request $request)
     {
         // dd($request);
@@ -126,12 +126,7 @@ class PharmacyAPIsController extends Controller
         session::put('pharmSlug', $PharmSlug);
         session::put('pharmPassword', $pharmPassword);
 
-        return response()->json(
-            [
-                'massage' => 'loggedIn',
-            ],
-            200
-        );
+        return $pharmacy;
     }
 
     public function logout()

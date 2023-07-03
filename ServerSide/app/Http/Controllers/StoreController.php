@@ -16,10 +16,10 @@ class StoreController extends Controller
 
     public function index()
     {
-        session::start();
-        $data = session::all();
-        $slug = session::get('storeSlug');
-        if(!$slug) return('unautherizes');
+//        session::start();
+//        $data = session::all();
+//        $slug = session::get('storeSlug');
+//        if(!$slug) return('unautherizes');
 
         return StoreResource::collection(Store::all());
     }
@@ -75,7 +75,7 @@ class StoreController extends Controller
         return response()->json(['message' => 'Store deleted successfully'], 200);
     }
 
-    
+
     public function login(Request $request)
     {
 
@@ -113,12 +113,7 @@ class StoreController extends Controller
         session::put('storeSlug', $storeSlug);
         session::put('storePassword', $storePassword);
 
-        return response()->json(
-            [
-                'massage' => 'loggedIn',
-            ],
-            200
-        );
+        return $store;
     }
 
     public function logout()
