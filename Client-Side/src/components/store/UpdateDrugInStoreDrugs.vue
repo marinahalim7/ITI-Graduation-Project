@@ -3,7 +3,7 @@
     <div class="page-container">
       <div class="form-container">
         <div class="d-flex justify-content-center">
-          <h3 class="FormTitle">Update Drug In Store Drugs</h3>
+          <h3 class="FormTitle">Update Drug </h3>
         </div>
 
         <form @submit="submitForm">
@@ -107,7 +107,13 @@
 import { ref, onMounted } from "vue";
 import axios from "axios";
 import Swal from 'sweetalert2';
+
 import { useRoute } from "vue-router";
+
+
+import { useRouter } from "vue-router";
+
+const router = useRouter(); // Access the router instance
 
 
 const name = ref('');
@@ -121,10 +127,15 @@ const errors = ref({
 const route = useRoute();
 const drugId = ref(route.params.id); 
 
+
+const storeData = JSON.parse(sessionStorage.getItem('store'));
+    const storeId = storeData.id;
+
 // Fetch the existing drug data
 onMounted(async () => {
   try {
-    const storeId = 9;  // [[[get the store Id from the session]]]
+
+    // [[[get the store Id from the session]]]
 
     const response = await axios.get(`http://localhost:8000/api/stores/${storeId}/drugs/${drugId.value}`);
     const drugData = response.data;
@@ -161,8 +172,6 @@ const submitForm = async (event) => {
   formData.append("_method", "put");
 
   try {
-    const storeId = 9;  // [[[get the store Id from the session]]]
-
     const response = await axios.post(
       `http://localhost:8000/api/stores/${storeId}/drugs/${drugId.value}`,
       formData,
@@ -177,7 +186,10 @@ const submitForm = async (event) => {
       icon:  'success',
       title: 'Success!',
       text:  'Drug updated successfully',
-    });
+    }).then(() => {
+      // Navigate to /homePage after clicking "OK"
+      router.push('/store/home/');
+    });;
 
     console.log("Success:", response.data);
   } catch (error) {

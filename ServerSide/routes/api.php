@@ -81,6 +81,7 @@ Route::post('/user/login', [UserController::class, 'userLogin']);
 
 
 
-// Pharmacy Drugs
 
-Route::apiResource('/pharmacy/drugs',PharmacyDrugsController::class);
+// Pharmacy Drugs
+Route::get('/pharmacies/drug',[PharmacyDrugsController::class,'getDrug']);
+Route::apiResource('/pharmacies/drugs',PharmacyDrugsController::class);

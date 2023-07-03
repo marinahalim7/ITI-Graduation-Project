@@ -3,7 +3,7 @@
     <div class="page-container">
       <div class="form-container">
         <div class="d-flex justify-content-center">
-          <h3 class="FormTitle">Update Drug In User Drugs</h3>
+          <h3 class="FormTitle">Update Drug</h3>
         </div>
 
         <form @submit="submitForm">
@@ -154,6 +154,11 @@ import Swal from 'sweetalert2';
 import { useRoute } from "vue-router";
 
 
+import { useRouter } from "vue-router";
+
+const router = useRouter(); // Access the router instance
+
+
 const name = ref("");
 const exp_date = ref("");
 const price = ref('');
@@ -169,10 +174,12 @@ const errors = ref({
 const route = useRoute();
 const drugId = ref(route.params.id); // Initialize drugId with the id parameter
 
+const userData = JSON.parse(sessionStorage.getItem('user'));
+    const userId = userData.id;
 // Fetch drug information on component mount
 onMounted(async () => {
   try {
-    const response = await axios.get(`http://localhost:8000/api/user/drugs/${drugId.value}?user_id=1`);
+    const response = await axios.get(`http://localhost:8000/api/user/drugs/${drugId.value}?user_id=${userId}`);
     const drug = response.data.data;
 
     // Populate the form fields with the existing data
@@ -209,15 +216,13 @@ formData.append("price", price.value);
 formData.append("quantity", quantity.value);
 formData.append("img", drugImageInput.value.files[0]); 
 formData.append("exp_img", expireImageInput.value.files[0]);
-formData.append('user_id',1); // get the user id from the seesion
+formData.append('user_id',userId); // get the user id from the seesion
 
 // Add the _method parameter to the formData object
 formData.append("_method", "put");
 
 try{
-
  // const drugId = 4;  // get the drug Id from the route params /updateDrugInStoreDrugs/:id
- 
   const response = await axios.post(
   `http://localhost:8000/api/user/drugs/${drugId.value}`,
   formData,
@@ -233,6 +238,9 @@ try{
       icon:  'success',
       title: 'Success!',
       text:  'Drug updated successfully',
+    }).then(() => {
+      // Navigate to /homePage after clicking "OK"
+      router.push('/user/home');
     });
 
     // Handle success response

@@ -4,7 +4,7 @@
     <div class="page-container">
     <div class="form-container">
       <div class="d-flex justify-content-center">
-        <h3 class="FormTitle">Add Drug In Pharmacy Drugs</h3>
+        <h3 class="FormTitle">Add Drug </h3>
       </div>
 
       <form @submit="submitForm">
@@ -130,6 +130,11 @@
 import { ref } from "vue";
 import axios from 'axios';
 import Swal from 'sweetalert2'; 
+import { useRouter } from "vue-router";
+
+const router = useRouter(); // Access the router instance
+
+
 
 const name = ref(''); 
 const price = ref('');
@@ -176,24 +181,28 @@ const submitForm = async (event) => {
   if (hasErrors) {
     return;
   }
-
+  const pharmacyData = JSON.parse(sessionStorage.getItem('pharmacy'));
+    const pharmacyId = pharmacyData.id;
   // Create form data
   const formData = new FormData();
   formData.append('name', name.value); 
   formData.append('price', price.value);
   formData.append('quantity', quantity.value);
   formData.append('img', drugImageInput.files[0]); 
-  formData.append('pharmacy_id',3); // get the pharmacy id from the seesion
+  formData.append('pharmacy_id',pharmacyId); // get the pharmacy id from the seesion
 
   try {
 
     // Make API request
-    const response = await axios.post(`http://localhost:8000/api/pharmacy/drugs/`, formData);
+    const response = await axios.post(`http://localhost:8000/api/pharmacies/drugs`, formData);
  // Show success alert
  Swal.fire({
       icon: 'success',
       title: 'Success!',
       text: 'Drug added successfully',
+    }).then(() => {
+      // Navigate to /homePage after clicking "OK"
+      router.push('/pharmacy/home/');
     });
   
     console.log('Drug added successfully:', response.data);
@@ -204,6 +213,8 @@ const submitForm = async (event) => {
     price.value = '';
     quantity.value = '';
     drugImageInput.value = null;
+
+
 
   } catch (error) {
 

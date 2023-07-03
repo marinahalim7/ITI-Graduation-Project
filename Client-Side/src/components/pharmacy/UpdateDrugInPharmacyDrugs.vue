@@ -3,7 +3,7 @@
     <div class="page-container">
       <div class="form-container">
         <div class="d-flex justify-content-center">
-          <h3 class="FormTitle">Update Drug In Pharmacy Drugs</h3>
+          <h3 class="FormTitle">Update Drug </h3>
         </div>
 
         <form @submit="submitForm">
@@ -111,6 +111,10 @@ import Swal from 'sweetalert2';
 import { useRoute } from "vue-router";
 
 
+import { useRouter } from "vue-router";
+
+const router = useRouter(); // Access the router instance
+
 
 const name = ref('');
 const price = ref('');
@@ -124,14 +128,16 @@ const errors = ref({
 const route = useRoute();
 const drugId = ref(route.params.id); 
 
-
+const pharmacyData = JSON.parse(sessionStorage.getItem('pharmacy'));
+    const pharmacyId = pharmacyData.id;
 
 // Fetch drug information 
 onMounted(async () => {
   try {
-    const response = await axios.get(`http://localhost:8000/api/pharmacy/drugs/${drugId.value}`, {
+
+    const response = await axios.get(`http://localhost:8000/api/pharmacies/drugs/${drugId.value}`, {
       params: {
-        pharmacy_id: 1
+        pharmacy_id: pharmacyId
       }
     });
     const drug = response.data;
@@ -173,14 +179,12 @@ formData.append("img", drugImageInput.value.files[0]);
 
 // Add the _method parameter to the formData object
 formData.append("_method", "put");
-formData.append('pharmacy_id',1); // get the pharmacy id from the seesion
+formData.append('pharmacy_id',pharmacyId); // get the pharmacy id from the seesion
 
   try {
  
-    //const drugId = 4;  // get the drug Id from the route params /updateDrugInPharmacyDrugs/:id
- 
     const response = await axios.post(
-  `http://localhost:8000/api/pharmacy/drugs/${drugId.value}`,
+  `http://localhost:8000/api/pharmacies/drugs/${drugId.value}`,
   formData,
   {
     headers: {
@@ -194,6 +198,9 @@ formData.append('pharmacy_id',1); // get the pharmacy id from the seesion
       icon:  'success',
       title: 'Success!',
       text:  'Drug updated successfully',
+    }).then(() => {
+      // Navigate to /homePage after clicking "OK"
+      router.push('/pharmacy/home/');
     });
 
     console.log("Success:", response.data);
@@ -230,8 +237,8 @@ formData.append('pharmacy_id',1); // get the pharmacy id from the seesion
 
     /* Media query for small screens */
     @media (max-width: 576px) {
-    margin-top: 20px; 
-    padding: 10px; 
+    margin-top: 20px;
+    padding: 10px;
   }
 }
 .form-control {
@@ -250,11 +257,11 @@ formData.append('pharmacy_id',1); // get the pharmacy id from the seesion
   justify-content: flex-start;
   align-items: flex-start;
   height: 115vh; /* height of the container to the full viewport height */
-  padding-left: 70px; 
+  padding-left: 70px;
 
   /* Media query for small screens */
   @media (max-width: 576px) {
-    padding-left: 10px; 
+    padding-left: 10px;
   }
 }
 .textFloating {

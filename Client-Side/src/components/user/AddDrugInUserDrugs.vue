@@ -4,7 +4,7 @@
     <div class="page-container">
       <div class="form-container">
         <div class="d-flex justify-content-center">
-          <h3 class="FormTitle">Add Drug In User Drugs</h3>
+          <h3 class="FormTitle">Add Drug </h3>
         </div>
 
       <form @submit="submitForm">
@@ -196,6 +196,10 @@
 import { ref } from "vue";
 import axios from 'axios';
 import Swal from 'sweetalert2'; 
+import { useRouter } from "vue-router";
+
+const router = useRouter(); // Access the router instance
+
 
 const name = ref("");
 const exp_date = ref("");
@@ -256,6 +260,8 @@ const submitForm = async (event) => {
   }
 
 
+  const userData = JSON.parse(sessionStorage.getItem('user'));
+    const userId = userData.id;
   // Create form data
   const formData = new FormData();
   formData.append('name', name.value); 
@@ -264,16 +270,19 @@ const submitForm = async (event) => {
   formData.append('exp_date', exp_date.value);
   formData.append('img', drugImageInput.files[0]); 
   formData.append('exp_img', expireImageInput.files[0]); 
-  formData.append('user_id',1); // get the user id from the seesion
+  formData.append('user_id',userId); // get the user id from the seesion
 
   try {
         // Make API request
-        const response = await axios.post(`http://localhost:8000/api/user/drugs/`, formData);
+        const response = await axios.post(`http://localhost:8000/api/user/drugs/`, formData)
          // Show success alert
  Swal.fire({
       icon: 'success',
       title: 'Success!',
       text: 'Drug added successfully',
+    }).then(() => {
+      // Navigate to /homePage after clicking "OK"
+      router.push('/user/home');
     });
     // Handle successful response
     console.log('Drug added successfully:', response.data);
@@ -288,7 +297,6 @@ const submitForm = async (event) => {
     expireImageInput.value = null;
 
   }catch(error){
-      // Show error alert
       Swal.fire({
       icon: 'error',
       title: 'Error!',
@@ -347,11 +355,11 @@ const submitForm = async (event) => {
   color: #294d8b;
 }
 
-.page-container {
+.page-container { 
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
-  height: 200vh;
+  height: 190vh;
   /* height of the container to the full viewport height */
   padding-left: 70px;
  

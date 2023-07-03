@@ -17,27 +17,27 @@ const routes = [
     },
 
     {
-        path:'/AddDrugInUserDrugs',
+        path:'/User/AddDrug',
         component: AddDrugInUserDrugs
     },
     {
-        path:'/UpdateDrugInUserDrugs/:id',
+        path:'/User/UpdateDrug/:id',
         component: UpdateDrugInUserDrugs
     },
     {
-        path:'/AddDrugInPharmacyDrugs',
+        path:'/Pharmacy/AddDrug',
         component: AddDrugInPharmacyDrugs
     },
     {
-        path:'/UpdateDrugInPharmacyDrugs/:id',
+        path:'/Pharmacy/UpdateDrug/:id',
         component: UpdateDrugInPharmacyDrugs
     },
     {
-        path:'/AddDrugInStoreDrugs',
+        path:'/Store/AddDrug',
         component: AddDrugInStoreDrugs
     },
     {
-        path:'/UpdateDrugInStoreDrugs/:id',
+        path:'/Store/UpdateDrug/:id',
         component: UpdateDrugInStoreDrugs
     },
   {

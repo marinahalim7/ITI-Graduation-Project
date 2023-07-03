@@ -3,7 +3,7 @@
     <div class="page-container">
     <div class="form-container">
       <div class="d-flex justify-content-center">
-        <h3 class="FormTitle">Add Drug In Store Drugs</h3>
+        <h3 class="FormTitle">Add Drug</h3>
       </div>
 
       <form @submit="submitForm">
@@ -133,6 +133,10 @@
 import { ref } from "vue";
 import axios from 'axios';
 import Swal from 'sweetalert2'; 
+import { useRouter } from "vue-router";
+
+const router = useRouter(); // Access the router instance
+
 
 const name = ref(''); 
 const price = ref('');
@@ -190,8 +194,9 @@ const submitForm = async (event) => {
   formData.append('img', drugImageInput.files[0]); // Updated field name
 
   try {
-    const storeId = 1; // Replace with the actual store ID you obtain from the session
-  console.log(formData);
+    const storeData = JSON.parse(sessionStorage.getItem('store'));
+    const storeId = storeData.id;
+  
     // Make API request
     const response = await axios.post(`http://127.0.0.1:8000/api/stores/${storeId}/drugs/`, formData);
 
@@ -199,9 +204,13 @@ const submitForm = async (event) => {
       icon: 'success',
       title: 'Success!',
       text: 'Drug added successfully',
-    });
+    }).then(() => {
+      // Navigate to /homePage after clicking "OK"
+      router.push('/store/home/');
+    });;
     // Handle successful response
     console.log('Drug added successfully:', response.data);
+   
 
 
    
@@ -209,6 +218,8 @@ const submitForm = async (event) => {
     price.value = '';
     quantity.value = '';
     drugImageInput.value = null;
+
+
 
   } catch (error) {
 
