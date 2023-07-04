@@ -15,6 +15,10 @@ import PharmacyHomePage from "../components/pharmacy/Home.vue"
 import StroreHomePage from "../components/store/Home.vue"
 import UserHomePage from "../components/user/Home.vue"
 import AdminHomePage from "../components/admin/Home.vue"
+import searchForDrug from "../components/pharmacy/searchForDrug.vue"
+
+import PharmacySearch from "../components/pharmacy/PharmacySearch.vue"
+import UserSearch from "../components/user/UserSearch.vue"
 
 import paymentForm from "../components/paymentSystem/paymentForm.vue"
 const routes = [
@@ -89,6 +93,10 @@ const routes = [
     {
         path:'/user/search',
         component: UserSearch
+    },
+    {
+        path:'/pharmacy/searchDrug',
+        component: searchForDrug
     },
 
 ];

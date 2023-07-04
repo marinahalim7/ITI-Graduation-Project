@@ -1,8 +1,18 @@
 <script setup>
-
+import navbar from '../header.vue';
 </script>
 
 <template>
+
+  <!-- <navbar>
+    <template v-slot:route>
+      <router-link to="/AddDrugInStoreDrugs" class="nav-link mx-3 fs-5">Home</router-link>
+       <router-link to="/AddDrugInPharmacyDrugs" class="nav-link mx-3 fs-5" >Search</router-link>
+
+    </template>
+  </navbar> -->
+
+
 <div class="container-fluid back-ground">
   <div class="container">
 <div class="row">

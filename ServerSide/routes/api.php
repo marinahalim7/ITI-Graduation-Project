@@ -52,10 +52,11 @@ Route::middleware(['cors'])->group(function () {
 });
 // 
 
-Route::get('stores/drugs/{drug}', [StoreDrugController::class , 'search']);
 Route::apiResource('stores.drugs', StoreDrugController::class);
 Route::get('stores/drugs/{drug}', [StoreDrugController::class , 'getstores']);
 Route::get('stores/drugs/', [StoreDrugController::class , 'showAllDrug']);
+
+Route::get('drugs/search/{drugName}', [StoreDrugController::class ,'search']);
 
 
 Route::apiResource('/pharmacy',PharmacyAPIsController::class);

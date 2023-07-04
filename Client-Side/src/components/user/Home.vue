@@ -2,6 +2,7 @@
 import { ref, onMounted,computed } from 'vue';
 import { userDrugsStore } from '@/stores/user-drug';
 import axios from 'axios';
+import navbar from '../header.vue';
 
 
 const userDrugs = userDrugsStore();
@@ -44,13 +45,61 @@ function nextPage() {
     }
 }
 
+//  async getname()
+//  {
+//     const userData = await JSON.parse(sessionStorage.getItem('user'));
+//   const userName = userData.first_name;
 
+//   return userName;
+
+
+// //  const userData = JSON.parse(sessionStorage.getItem('user'));
+// //   const userName = userData.first_name;
+
+// }
+
+const userData = JSON.parse(sessionStorage.getItem('user'));
+ const userName = userData.first_name;
+ const userImg = userData.img;
+    console.log("ffff");
+    console.log(userImg);
+console.log(`http://127.0.0.1:8000/images/users/${userImg}`)
 
 
 
 </script>
 
 <template>
+
+ <navbar>
+    <template v-slot:route>
+      <div class="d-flex text-light">
+      <router-link to="/user/home" class="nav-link mx-3 fs-5">Home</router-link>
+       <router-link to="/user/search" class="nav-link mx-3 fs-5" >Search</router-link>
+       <router-link to="/User/AddDrug" class="nav-link mx-3 fs-5" >Sell Medicine</router-link>
+       <router-link to="/" class="nav-link mx-3 fs-5"  >Log Out</router-link>
+      </div>
+    </template>
+
+    <template v-slot:login>
+     <div>
+        <a class="navbar-brand" href="#" style="padding-left: 0">
+          <img
+            :src="`http://127.0.0.1:8000/images/users/${userImg}`"
+            alt="image"
+            width="50"
+            height="50"
+            class="d-inline-block align-text-end"
+          />
+        </a>
+        <div class="bold text-light">{{userName}}</div>
+      </div>
+
+    </template>
+  </navbar>
+
+
+
     <div class="backgroundImage">
         <div class="button-container">
             <router-link class="btn btn-primary addbutton" to="/User/AddDrug">Add Drug</router-link>

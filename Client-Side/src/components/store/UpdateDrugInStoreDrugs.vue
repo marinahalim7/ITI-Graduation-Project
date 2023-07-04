@@ -1,4 +1,13 @@
 <template>
+ <navbar>
+    <template v-slot:route>
+      <div class="d-flex text-light">
+      <router-link to="/store/home/" class="nav-link mx-3 fs-5">Home</router-link>
+      
+      </div>
+    </template>
+  </navbar>
+
   <div class="backgroundImag">
     <div class="page-container">
       <div class="form-container">

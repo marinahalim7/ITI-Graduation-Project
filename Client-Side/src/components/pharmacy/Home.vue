@@ -2,6 +2,7 @@
 import { ref, onMounted, computed } from 'vue';
 import { usePharmacyDrugsStore } from '@/stores/pharmacy-drug';
 import axios from 'axios';
+import navbar from '../header.vue';
 
 
 const pharmacyDrugsStore = usePharmacyDrugsStore();
@@ -49,6 +50,19 @@ function nextPage() {
 </script>
 
 <template>
+
+
+ <navbar>
+    <template v-slot:route>
+      <div class="d-flex text-light ">
+      <router-link to="/pharmacy/home/" class="nav-link mx-3 fs-5">Home</router-link>
+       <router-link to="/user/search" class="nav-link mx-3 fs-5" >Search For Drug</router-link>
+       <router-link to="/signin" class="nav-link mx-3 fs-5" >Log Out</router-link>
+      </div>
+    </template>
+  </navbar>
+
+
     <div class="backgroundImage">
         <div class="button-container">
             <router-link class="text-center btn btn-primary addbutton" to="/Pharmacy/AddDrug/">Add Drug</router-link>
