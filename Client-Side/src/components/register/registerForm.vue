@@ -1,6 +1,7 @@
 <script setup>
 //Imports
 import {computed, ref} from "vue";
+import axios from "axios";
 
 //Variables
 let firstName=ref();
@@ -10,17 +11,21 @@ let password=ref();
 let confirmPass=ref();
 let mobileNumber=ref();
 let photo=ref();
-let type=ref();
 let samePassword=ref(true);
 let validPassword=ref(true);
 let validEmail=ref(true);
 let validDate=ref(true);
+let img=ref();
+
+
 //Functions
 let getValue=(event)=>{
   const files = event.target.files;
   photo.value=files[0].name;
+  img.value=files[0];
 };
-let submit=()=>{
+let submit=async (event)=>{
+  event.preventDefault();
   validDate.value=true;
   const emailRegex =/^[a-z][a-z0-9]*@[a-z]+\.[a-z]+$/;
   const passwordRegex =/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
@@ -64,10 +69,7 @@ let submit=()=>{
     photo.value="";
     validDate.value=false;
   }
-  if(type.value==undefined){
-    type.value="";
-    validDate.value=false;
-  }
+
   if (password.value!=confirmPass.value){
     samePassword.value=false;
     validDate.value=false;
@@ -75,8 +77,23 @@ let submit=()=>{
   if (password.value==confirmPass.value ){
     samePassword.value=true;
   }
+
   if (validDate.value){
-    //API for register
+    const formData=new FormData();
+    formData.append('first_name',firstName.value);
+    formData.append('last_name',lastName.value);
+    formData.append('email',email.value);
+    formData.append('password',password.value);
+    formData.append('phone_num',mobileNumber.value);
+    formData.append('img',img.value);
+    try {
+      const user=await axios.post("http://127.0.0.1:8000/api/user",formData);
+      console.log("added");
+      document.getElementById('login').click();
+    }catch (e){
+      console.log(e.message);
+    }
+
   }else {
     console.log("Wrong Data");
   }
@@ -95,6 +112,7 @@ const getPhoto=computed(()=>{
       <div class="col"><h1 class="headlines mt-5 ms-5">Create your Account</h1></div>
     </div>
 
+    <form @submit="submit">
     <div class="row mt-5">
       <div class="col-4"></div>
       <div class="col-6">
@@ -137,7 +155,7 @@ const getPhoto=computed(()=>{
           <label for="password" class="fw-bold normal-words w-100"><i class="fa-solid fa-lock mx-3 fs-5"></i>Password</label>
         </div>
         <span class="text-danger fw-bold" v-show="password==''">password is required</span> <br>
-        <span class="text-danger fw-bold" v-show="!validPassword">Password should contain Upper and Lower character and digits and should be 8 or more length</span>
+        <span class="text-danger fw-bold" v-show="!validPassword">Password should contain Upper and Lower character and special character and digits and should be 8 or more length</span>
       </div>
     </div>
 
@@ -168,7 +186,7 @@ const getPhoto=computed(()=>{
       <div class="col-4"></div>
       <div class="col-3">
         <div class="form-floating">
-          <input type="file" hidden class="form-control rounded-5" id="profileImage" placeholder="Upload image" @change="getValue">
+          <input type="file" hidden class="form-control rounded-5" id="profileImage" ref="ph" placeholder="Upload image" @change="getValue">
           <button type="button" class="btn button-background rounded-5"><label for="profileImage" class="fw-bold normal-words"><i class="fa-solid fa-image mx-3 fs-5"></i>Upload image</label></button>
         </div>
         <span class="text-danger fw-bold" v-show="photo==''">You should choose profile picture</span>
@@ -178,39 +196,19 @@ const getPhoto=computed(()=>{
       </div>
     </div>
 
-    <div class="row mt-4">
-      <div class="col-4"></div>
-      <div class="col-2">
-        <input type="radio" class="btn-check" name="typeOfUser"  id="user" @click="type='user'" autocomplete="off">
-        <label class="btn type" for="user" :class="type=='user'? 'selected':'type'" id="userLabel" @click="type='user'">User</label><br>
-      </div>
-      <div class="col-2">
-        <input type="radio" class="btn-check" name="typeOfUser"  id="pharmacy" autocomplete="off">
-        <label class="btn type"  for="pharmacy" id="userLabel" :class="type=='pharmacy'? 'selected':'type'" @click="type='pharmacy'">Pharmacy</label><br>
-      </div>
-      <div class="col-2">
-        <input type="radio" class="btn-check" name="typeOfUser"  id="store" autocomplete="off">
-        <label class="btn type"  for="store" id="userLabel" :class="type=='store'? 'selected':'type'" @click="type='store'">Store</label><br>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-5"></div>
-      <div class="col">
-        <span class="text-danger fw-bold" v-show="type==''">You should choose your account type</span>
-      </div>
-    </div>
+
 
     <div class="row mt-4">
       <div class="col-6"></div>
       <div class="col">
-        <button type="button" class="btn submit-btn" @click="submit()">Sign Up</button>
+        <button  class="btn submit-btn">Sign Up</button>
       </div>
     </div>
-
+    </form>
     <div class="row mt-4">
       <div class="col-5"></div>
       <div class="col">
-        <p class="text-light fs-5">Already have account? <router-link to="/signin" class="headlines">Login</router-link></p>
+        <p class="text-light fs-5">Already have account? <router-link to="/signin" class="headlines" id="login">Login</router-link></p>
       </div>
     </div>
   </div>
@@ -242,10 +240,6 @@ const getPhoto=computed(()=>{
 .type{
   background-color: white;
   color: #00A4D6;
-}
-.selected{
-  background-color: #163172;
-  color: white;
 }
 .submit-btn{
   background-color:#163172;

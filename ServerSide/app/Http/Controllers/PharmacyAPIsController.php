@@ -31,10 +31,10 @@ class PharmacyAPIsController extends Controller
      */
     public function store(StorePharmacyRequest $request)
     {
-        session::start();
-        $data = session::all();
-        $slug = session::get('pharmSlug');
-        if(!$slug) return('unautherizes');
+//        session::start();
+//        $data = session::all();
+//        $slug = session::get('pharmSlug');
+//        if(!$slug) return('unautherizes');
 
         $pharmacy = Pharmacy::create($request->all());
         return new PharmacyResource($pharmacy);
