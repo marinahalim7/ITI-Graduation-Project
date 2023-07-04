@@ -81,7 +81,15 @@ const routes = [
     {
         path: '/payment',
         component: paymentForm
-    }
+    },
+    {
+        path:'/pharmacy/search',
+        component: PharmacySearch
+    },
+    {
+        path:'/user/search',
+        component: UserSearch
+    },
 
 ];
 const router = createRouter({

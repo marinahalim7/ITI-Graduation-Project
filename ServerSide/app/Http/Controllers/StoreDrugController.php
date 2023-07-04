@@ -59,17 +59,12 @@ class StoreDrugController extends Controller
     }
 
 
-    public function getdrugs($drugName)          ##get all stores of specific drug
+    public function search($drugName)
     {
-        $storeNames = Store::whereHas('store_drugs', function ($query) use ($drugName) {
-            $query->where('name', 'like', $drugName);
-        })->pluck('name');
-
-        if ($storeNames->isEmpty()) {
-            return response()->json(['message' => 'This drug is not exist in store'], 404);
-        } else {
-            return response()->json($storeNames);
-        }
+        // Retrieve all instances of the drug name across all stores
+        $storeDrugs = StoreDrug::where('name', 'like', "%{$drugName}%")->get();
+    
+        return response()->json($storeDrugs);
     }
 
     /**
