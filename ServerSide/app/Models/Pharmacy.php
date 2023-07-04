@@ -31,7 +31,9 @@ class Pharmacy extends Model
         ];
     }
     
-//    pubplic function pharmacy_drugs(){
-//        return $this->belongsToMany(PharmacyDrug::class,'pharmacy_rel_drugs','pharmacy_id','drug_id');
-//}
+    public function pharmacy_drugs(){
+        return $this->hasMany(PharmacyDrugs::class);
+        
+ 
+     }
 }

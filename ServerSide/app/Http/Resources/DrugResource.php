@@ -18,9 +18,9 @@ class DrugResource extends JsonResource
             'id'=>$this->id,
             'name'=>$this->name,
             'img'=>$this->img,
-            'exp_img'=>$this->img,
-            'price'=>$this->img,
-            'quantity'=>$this->img,      
+            'exp_img'=>$this->exp_img,
+            'price'=>$this->price,
+            'quantity'=>$this->quantity,      
         ];
     }
 }

@@ -11,13 +11,33 @@ import UpdateDrugInStoreDrugs from "../components/store/UpdateDrugInStoreDrugs.v
 import pharmacyRegister from "../components/register/pharmacyRegister.vue"
 import storeRegister from "../components/register/storeRegister.vue"
 import Home from "../components/user/Home.vue"
+import PharmacyHomePage from "../components/pharmacy/Home.vue"
+import StroreHomePage from "../components/store/Home.vue"
+import UserHomePage from "../components/user/Home.vue"
+import AdminHomePage from "../components/admin/Home.vue"
+
 import paymentForm from "../components/paymentSystem/paymentForm.vue"
 const routes = [
   {
         path: '/',
         component: homePage
     },
-
+    {
+        path:'/user/home',
+        component: UserHomePage
+    },
+    {
+        path:'/pharmacy/home/',
+        component: PharmacyHomePage
+    },
+    {
+        path:'/store/home/',
+        component: StroreHomePage
+    },
+    {
+        path:'/admin/home/',
+        component: AdminHomePage
+    },
     {
         path:'/User/AddDrug',
         component: AddDrugInUserDrugs

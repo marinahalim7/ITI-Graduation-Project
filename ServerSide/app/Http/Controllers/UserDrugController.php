@@ -18,8 +18,9 @@ class UserDrugController extends Controller
 
     public function index()  // display drugs for specific user
     {
-        $user = User::find(2);  // user who loginIn
-        $drugs = $user->user_drugs->where('publishable', true);
+         $id = request()->query('id');
+         $user = User::find($id);  // user who loginIn
+         $drugs = $user->user_drugs->where('publishable', true);
  
         if($drugs->isEmpty()){
            return response()->json(['message' => 'No drugs found'], 404);

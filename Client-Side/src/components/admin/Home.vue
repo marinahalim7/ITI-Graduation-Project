@@ -1,23 +1,32 @@
 <script setup>
 import { ref, onMounted,computed } from 'vue';
-import { userDrugsStore } from '@/stores/user-drug';
 import axios from 'axios';
-
-
-const userDrugs = userDrugsStore();
 const drugs = ref([]);
+const errorMessage = ref('');
 const currentPage = ref(1);
 const itemsPerPage = 5;
 
 onMounted(async () => {
-    await userDrugs.fetchAllDrugs();
-    drugs.value = userDrugs.drugs;
-    console.log('drugs:', drugs.value);
+    try {
+        const response = await axios.get('http://127.0.0.1:8000/api/admin');
+        console.log(response);
+        drugs.value = response.data.data;
+    } catch (error) {
+        errorMessage.value = error.response.data.message;
+    }
 });
 
+async function publishDrug(id) {
+    try {
+        const response = await axios.put(`http://127.0.0.1:8000/api/admin/${id}`);
+        this.drugs.splice(this.drugs.findIndex(drug => drug.id == id), 1);
+    } catch (error) {
+        console.error(error);
+    }
+}
 async function deleteDrug(id) {
     try {
-        const response = await axios.delete(`http://127.0.0.1:8000/api/user/drugs/${id}`);
+        const response = await axios.delete(`http://127.0.0.1:8000/api/admin/${id}`);
         this.drugs.splice(this.drugs.findIndex(drug => drug.id == id), 1);
     } catch (error) {
         console.error(error);
@@ -37,27 +46,21 @@ function previousPage() {
         currentPage.value--;
     }
 }
-
 function nextPage() {
     if (currentPage.value < totalPages.value) {
         currentPage.value++;
     }
 }
 
-
-
-
-
 </script>
 
 <template>
     <div class="backgroundImage">
-        <div class="button-container">
-            <router-link class="btn btn-primary addbutton" to="/User/AddDrug">Add Drug</router-link>
-        </div>
+        <h2 class="text-center">Admin Panel</h2>
         <div class="container">
             <div class="table-container">
-                <table class="table">
+                <h2 v-if="errorMessage" class="text-center">{{ errorMessage }}</h2>
+                <table v-else class="table">
                     <thead>
                         <tr>
                             <th scope="col">Name</th>
@@ -65,6 +68,7 @@ function nextPage() {
                             <th scope="col">exp_img</th>
                             <th scope="col">price</th>
                             <th scope="col">quantity</th>
+                            <th scope="col">Owner</th>
                             <th scope="col">Actions</th>
                         </tr>
                     </thead>
@@ -80,10 +84,18 @@ function nextPage() {
                             <td>{{ drug.price }}</td>
                             <td>{{ drug.quantity }}</td>
                             <td>
-                                <router-link class="btn btn-success publish-btn btn-sm me-2"
-                                    :to="'/User/UpdateDrug/' + drug.id">Update</router-link>|
-                                <button class="btn btn-danger delete-btn btn-sm"
-                                    @click="deleteDrug(drug.id)">Delete</button>
+                                <div class="owner-details">
+                                    <div class="owner-image">
+                                        <img :src="`http://127.0.0.1:8000/images/userDrugs/${drug.Owner.img}`"
+                                            class="owner-avatar">
+                                    </div>
+                                    <div class="owner-name">{{ drug.Owner.first_name }} {{ drug.Owner.last_name }}</div>
+                                    <div class="owner-phone">{{ drug.Owner.phone_num }}</div>
+                                </div>
+                            </td>
+                            <td>
+                                <button class="btn btn-success publish-btn btn-sm me-2" @click="publishDrug(drug.id)">Publish</button>|
+                                <button class="btn btn-danger delete-btn btn-sm" @click="deleteDrug(drug.id)">Delete</button>
                             </td>
                         </tr>
                     </tbody>
@@ -100,7 +112,6 @@ function nextPage() {
     </div>
 </template>
   
-
 <style scoped>
 @import url("https://fonts.googleapis.com/css2?family=Alkatra&family=Arimo:wght@400;600&family=IBM+Plex+Sans+Arabic:wght@600&family=Inconsolata:wght@700&family=Kanit:wght@500&family=Lilita+One&family=Lobster&family=Montserrat+Alternates:wght@200&family=Pacifico&family=Paytone+One&display=swap");
 

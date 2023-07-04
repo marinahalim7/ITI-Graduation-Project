@@ -53,6 +53,10 @@ Route::middleware(['cors'])->group(function () {
 // 
 
 Route::get('stores/drugs/{drug}', [StoreDrugController::class , 'getdrugs']);
+Route::apiResource('stores.drugs', StoreDrugController::class);
+Route::get('stores/drugs/{drug}', [StoreDrugController::class , 'getstores']);
+Route::get('stores/drugs/', [StoreDrugController::class , 'showAllDrug']);
+
 
 Route::apiResource('/pharmacy',PharmacyAPIsController::class);
 
@@ -81,7 +85,8 @@ Route::post('/user/login', [UserController::class, 'userLogin']);
 
 
 
-
 // Pharmacy Drugs
+
+//Route::apiResource('/pharmacy/drugs',PharmacyDrugsController::class);
 Route::get('/pharmacies/drug',[PharmacyDrugsController::class,'getDrug']);
 Route::apiResource('/pharmacies/drugs',PharmacyDrugsController::class);

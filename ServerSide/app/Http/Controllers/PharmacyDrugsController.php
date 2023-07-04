@@ -16,10 +16,13 @@ class PharmacyDrugsController extends Controller
      */
     public function index()
     {
-        $pharmacy = Pharmacy::find(4);
+        // dump(request()->query('id'));
+        $id = request()->query('id');
+        $pharmacy = Pharmacy::find($id);
         $drugs = $pharmacy->pharmacy_drugs;
         return  PharmacyDrugsResource::collection($drugs);
     }
+
 
     /**
      * Store a newly created resource in storage.
