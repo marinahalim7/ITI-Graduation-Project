@@ -21,11 +21,11 @@ class PaymentController extends Controller
             ]);
             // Create a charge using the Stripe API
             $charge = Charge::create([
-                'amount' => 1000, // Amount in cents
+                'amount' => 15000, // Amount in cents
                 'currency' => 'usd',
-                'source' => $request->input('stripeToken'), // Stripe token obtained from the client-side
-                'description' => 'Example Payment',
-                'payment_method'=>$request->payment_method,
+                'source' => "tok_visa", // Stripe token obtained from the client-side
+                'description' => 'Add Pharmacy or Store',
+//                'payment_method'=>$request->payment_method,
 //                'customer' => $customer->id,
             ]);
             $charge->customer=$customer->id;

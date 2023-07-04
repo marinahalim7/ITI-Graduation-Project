@@ -18,7 +18,7 @@
         If you have medicine costs more than 500 EGP and you don't need it any more you can sell it with it's half price or less. <br>
         We also help Pharmacies to find this medicine to make them available for users register as pharmacy owner and see the Stores that have this medicines. <br>
         You also can register and join as Store owner and show that you have these medicines for pharmacies. <br>
-      You can just register as a normal User , Pharmacy or Store <router-link to="/register" class="headlines">Here </router-link> and use our website to find medicine or show it for others.
+      You can just register as a normal User <router-link to="/register/user" class="headlines">Here </router-link> or as Pharmacy Owner <router-link to="/register/pharmacy" class="headlines">Here</router-link> or as Store Owner <router-link to="/register/store" class="headlines">Here</router-link> and use our website to find medicine or show it for others.
       </p>
     </div>
   </div>
@@ -81,7 +81,7 @@
               <div class="row">
                 <div class="col-2"></div>
                 <div class="col">
-                <img src="/images/Mohammed%20Aldghar.jpg" class="h-75 w-75" alt="Mohammed Al-Dghar">
+                <img src="/images/Mohammed%20Aldghar.jpg" class=" w-75" alt="Mohammed Al-Dghar">
                </div>
              </div>
               <div class="row">
@@ -98,7 +98,7 @@
               <div class="row">
                 <div class="col-2"></div>
                 <div class="col">
-                  <img src="/images/Mohammed%20Aldghar.jpg" class="h-75 w-75" alt="Mohammed Al-Attar">
+                  <img src="/images/Attar.jpg" class=" w-75" alt="Mohammed Al-Attar">
                 </div>
               </div>
               <div class="row">
@@ -115,7 +115,7 @@
               <div class="row">
                 <div class="col-2"></div>
                 <div class="col">
-                  <img src="/images/Mohammed%20Aldghar.jpg" class="h-75 w-75" alt="Nada Mohammed">
+                  <img src="/images/nadaa.jpg" class=" w-75" alt="Nada Mohammed">
                 </div>
               </div>
               <div class="row">
@@ -133,7 +133,7 @@
               <div class="row">
                 <div class="col-2"></div>
                 <div class="col">
-                  <img src="/images/Mohammed%20Aldghar.jpg" class="h-75 w-75" alt="Mayar Ehab">
+                  <img src="/images/mayar.jpg" class=" w-75" alt="Mayar Ehab">
                 </div>
               </div>
               <div class="row">
@@ -151,7 +151,7 @@
               <div class="row">
                 <div class="col-2"></div>
                 <div class="col">
-                  <img src="/images/Mohammed%20Aldghar.jpg" class="h-75 w-75" alt="Marina Halim">
+                  <img src="/images/marina.jpg" class="w-75" alt="Marina Halim">
                 </div>
               </div>
               <div class="row">

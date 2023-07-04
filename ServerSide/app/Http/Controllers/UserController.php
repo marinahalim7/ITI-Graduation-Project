@@ -34,10 +34,8 @@ class UserController extends Controller
     public function store(StoreUserRequest $request)
     {
         $user = User::create($request->all());
-
         $this->save_image($request->img, $user);
         return new UserResource($user);
-
     }
 
     /**
